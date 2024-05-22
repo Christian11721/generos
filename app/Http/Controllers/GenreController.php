@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Genre\StoreRequest;
-use App\Http\Requests\Genre\UpdateRequest;
+use App\Http\Requests\{
+Genre\StoreRequest,
+Genre\UpdateRequest,
+};
 use Illuminate\Http\Request;
 use App\Models\Genre;
 
@@ -12,33 +14,49 @@ class GenreController extends Controller
     public function index()
     {
         $genres = Genre::all();
+
         return view('genre.index', compact('genres'));
     }
+
     public function create()
     {
-        return view("genre.create");
+        return view('genre.create');
     }
+
     public function store(StoreRequest $request)
     {
-        Genre::create($request->validated());
+        try{
+            Genre::create($request->validated());
+        }catch (\Exception $e){
+        }
         return redirect()->route('genres.index');
     }
+
     public function show(Genre $genre)
     {
-        return view("genre.show", compact("genre"));
+        return view('genre.show', compact('genre'));
     }
+
     public function edit(Genre $genre)
     {
-        return view("genre.edit", compact("genre"));
+        return view('genre.edit', compact('genre'));
     }
+
     public function update(UpdateRequest $request, Genre $genre)
     {
-        $genre->update($request->validated());
+        try{
+            $genre->update($request->validated());
+        }catch (\Exception $e){
+        }
         return redirect()->route('genres.index');
     }
+
     public function destroy(Genre $genre)
     {
-        $genre->delete();
+        try{
+            $genre->delete();
+        }catch (\Exception $e){
+        }
         return redirect()->route('genres.index');
     }
 }
