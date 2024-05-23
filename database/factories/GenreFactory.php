@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
+use Faker\Factory as Faker;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Genre>
@@ -16,9 +18,14 @@ class GenreFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = Faker::create();
+
+        $word = $faker->unique()->word();
+
+        $slug = Str::slug($word);
         return [
-            'name' => fake()->unique()->word(),
-            'slug' => fake()->unique()->word(),
+            'name' => $word,
+            'slug' => $slug,
         ];
     }
 }

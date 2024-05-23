@@ -6,7 +6,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="name" class="col-md-2 col-form-label">Nombre:</label>
-                    <input type="text" class="form-control" id="name" name="name">
+                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                 </div>
                 <div class="text-left mt-3">
                     <a href="{{ route('genres.index') }}" class="btn btn-info btn-sm hover-elevate-up">Cancelar</a>

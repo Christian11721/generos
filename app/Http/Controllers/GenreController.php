@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\{
-Genre\StoreRequest,
-Genre\UpdateRequest,
+use App\Http\Requests\Genre\{
+    StoreRequest,
+    UpdateRequest,
 };
 use Illuminate\Http\Request;
 use App\Models\Genre;
@@ -25,9 +25,11 @@ class GenreController extends Controller
 
     public function store(StoreRequest $request)
     {
-        try{
+        try {
             Genre::create($request->validated());
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
+            \Log::error('Error al crear el género del libro: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error al crear el género del libro.');
         }
         return redirect()->route('genres.index');
     }
@@ -44,18 +46,22 @@ class GenreController extends Controller
 
     public function update(UpdateRequest $request, Genre $genre)
     {
-        try{
+        try {
             $genre->update($request->validated());
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
+            \Log::error('Error al actualizar el género del libro: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error al actualizar el género del libro.');
         }
         return redirect()->route('genres.index');
     }
 
     public function destroy(Genre $genre)
     {
-        try{
+        try {
             $genre->delete();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
+            \Log::error('Error al eliminar el género del libro: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error al eliminar el género del libro.');
         }
         return redirect()->route('genres.index');
     }
